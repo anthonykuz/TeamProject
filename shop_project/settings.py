@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '%-0z03tg76t1po#ug*p6sph4^(&&3qhs52ixn-d9w^gh)r2)pc'
+SECRET_KEY = 'ylus8v)4qlg-vx(qpv91=lxuxt@vh(o_@10m!!th*kggh138-q'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -37,6 +37,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'accounts',
+    'shop',
+    'search_app',
+    'cart',
+    'stripe',
+    'order',
 ]
 
 MIDDLEWARE = [
@@ -54,7 +60,10 @@ ROOT_URLCONF = 'shop_project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [str(BASE_DIR.joinpath('shop', 'templates')),
+                 str(BASE_DIR.joinpath('search_app', 'templates')),
+                 str(BASE_DIR.joinpath('cart', 'templates')),
+                 str(BASE_DIR.joinpath('order', 'templates'))],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -62,6 +71,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'shop.context_processors.menu_links',
+                'cart.context_processors.counter',
             ],
         },
     },
@@ -118,3 +129,18 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [str(BASE_DIR.joinpath('static'))]
+STATIC_ROOT = str(BASE_DIR.joinpath('staticfiles'))
+STATICFILES_FINDERS = [
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+]
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = str(BASE_DIR.joinpath('media'))
+
+AUTH_USER_MODEL = 'accounts.CustomUser'
+
+STRIPE_SECRET_KEY = 'sk_test_51Hp2CkFUMZj5tqW3DTYotZxWiVpFIw3sl17RhEKNVCtkSchNMDbTDrbxylSFudPaXM0jJysM7WzW8fkeir0e7kHu00l8diAsS2'
+STRIPE_PUBLISHABLE_KEY = 'pk_test_51Hp2CkFUMZj5tqW3rbQMAyBVN5bZAgO932zo3RAz3SVHhiOfTFk8w6P8iv1MfP8idea3sazTPamW7U74CiIfibsI00O8dCN1Uj'
